@@ -1,0 +1,112 @@
+import numpy as np
+class Deque:
+    def __init__(self, size):
+        self.size = size                    
+        self.data = np.zeros(size, dtype=np.int32) 
+
+    def FillTheDeque(self, numbers):
+        n = min(len(numbers), self.size)
+        self.data[:n] = numbers[:n]  
+        self.head = 0
+        self.tail = n
+        self.count = n
+        d.Show()
+
+    def AddToHead(self, x):
+        if self.count == self.size:
+            print("Дек заполнен")
+            return
+        
+        self.head = (self.head - 1) % self.size  # отступаем назад
+        self.data[self.head] = x                
+        self.count += 1
+        print(f"Добавлено {x} в начало")
+        d.Show()
+    
+    def AddToTail(self, x):
+        if self.count == self.size:          
+            print("Дек заполнен")
+            return
+        
+        self.data[self.tail] = x            
+        self.tail = (self.tail + 1) % self.size  # сдвигаем tail вперёд
+        self.count += 1                     
+        print(f"Добавлено {x} в конец")
+        d.Show()
+
+    def DeleteFromTail(self, x):
+        if self.count == 0:
+            print("Дек пуст")
+            return None
+        
+        self.tail = (self.tail - 1) % self.size  # отступаем назад
+        x = self.data[self.tail]                  # берём значение
+        self.count -= 1
+        print(f"Удалён {x} из конца")
+        d.Show()
+        return x 
+
+    def DeleteFromHead(self):
+        if self.count == 0:
+            print("Дек пуст")
+            return None
+        
+        x = self.data[self.head]           
+        self.head = (self.head + 1) % self.size  # сдвигаем вперёд
+        self.count -= 1
+        print(f"Удалён {x} из начала")
+        d.Show()
+        return x
+        
+    def GetByIndex(self, index):
+        if index < 0 or index >= self.count:
+            print("Индекс вне диапазона")
+            return None
+        
+        real_index = (self.head + index) % self.size
+        print(f"Элемент [{index}] = {self.data[real_index]}")
+        return self.data[real_index]
+
+    def Show(self):
+        if self.count == 0:
+            print("Дек пуст")
+            return
+        
+        result = []
+        for i in range(self.count):
+            idx = (self.head + i) % self.size
+            result.append(str(self.data[idx]))
+        
+        print("Дек: [" + ", ".join(result) + "]")
+
+# Создаём дек
+size = int(input("Размер дека: "))
+d = Deque(size)
+
+# Заполняем начальными числами
+print("Нужно заполнить дек. Введите числа через пробел:")
+numbers = list(map(int, input().split()))
+d.FillTheDeque(numbers)
+
+# Меню
+while True:
+    print("\n1.Добавить в начало  2.Добавить в конец  3.Удалить сначала  4.Удалить с конца 5.Найти по индексу  6.Показать дек 0.Выход")
+    
+    cmd = input("Выбор: ")
+    
+    if cmd == "0":
+        break
+    elif cmd == "1":
+        d.AddToHead(int(input("Число: ")))
+    elif cmd == "2":
+        d.AddToTail(int(input("Число: ")))
+    elif cmd == "3":
+        d.DeleteFromHead()
+    elif cmd == "4":
+        d.DeleteFromTail()
+    elif cmd == "5":
+        d.GetByIndex(int(input("Индекс: ")))
+    elif cmd == "6":
+        d.Show()
+    else:
+        print("Неверная команда!")
