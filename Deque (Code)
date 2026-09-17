@@ -2,7 +2,8 @@ import numpy as np
 
 
 class Deque:
-    def __init__(self, size):
+
+    def __init__(self, size: int) -> None:
         if size <= 0:
             raise ValueError("Размер должен быть положительным")
         self.size = size
@@ -11,28 +12,28 @@ class Deque:
         self.tail = 0
         self.count = 0
 
-    def FillTheDeque(self, numbers):
+    def FillTheDeque(self, numbers: list[int]) -> None:
         n = min(len(numbers), self.size)
         self.data[:n] = numbers[:n]
         self.head = 0
         self.tail = n % self.size
         self.count = n
 
-    def AddToHead(self, x):
+    def AddToHead(self, x: int) -> None:
         if self.count == self.size:
             raise OverflowError("Дек заполнен")
         self.head = (self.head - 1) % self.size
         self.data[self.head] = x
         self.count += 1
 
-    def AddToTail(self, x):
+    def AddToTail(self, x: int) -> None:
         if self.count == self.size:
             raise OverflowError("Дек заполнен")
         self.data[self.tail] = x
         self.tail = (self.tail + 1) % self.size
         self.count += 1
 
-    def DeleteFromHead(self):
+    def DeleteFromHead(self) -> int:
         if self.count == 0:
             raise IndexError("Дек пуст")
         x = self.data[self.head]
@@ -40,7 +41,7 @@ class Deque:
         self.count -= 1
         return int(x)
 
-    def DeleteFromTail(self):
+    def DeleteFromTail(self) -> int:
         if self.count == 0:
             raise IndexError("Дек пуст")
         self.tail = (self.tail - 1) % self.size
@@ -48,17 +49,17 @@ class Deque:
         self.count -= 1
         return int(x)
 
-    def GetByIndex(self, index):
+    def GetByIndex(self, index: int) -> int:
         if index < 0 or index >= self.count:
             raise IndexError("Индекс вне диапазона")
         real_index = (self.head + index) % self.size
         return int(self.data[real_index])
 
-    def Show(self):
+    def Show(self) -> list[int]:
         return [int(self.data[(self.head + i) % self.size]) for i in range(self.count)]
 
 
-def print_deque(d):
+def print_deque(d: Deque) -> None:
     items = d.Show()
     if not items:
         print("Дек пуст")
@@ -66,7 +67,8 @@ def print_deque(d):
         print("Дек: [" + ", ".join(map(str, items)) + "]")
 
 
-def main():
+def main() -> None:
+    d: Deque
     while True:
         try:
             size = int(input("Размер дека: "))
@@ -84,7 +86,6 @@ def main():
 
     d.FillTheDeque(numbers)
     print_deque(d)
-
 
     menu = (
         "\n1. Добавить в начало    2. Добавить в конец\n"
